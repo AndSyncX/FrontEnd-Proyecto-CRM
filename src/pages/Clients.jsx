@@ -3,14 +3,30 @@ import { getClients } from "../api/Clients"; // Importar la función getClients 
 
 function Clients() {
     const [clients, setClients] = useState([]); // Inicializa el estado de los clientes como un array vacío
-
-    useEffect(() => {
+    const [loading, setLoading] = useState(true); // Inicializa el estado de carga como verdadero
+    
+    useEffect(() => { // useEffect se utiliza para manejar efectos secundarios en componentes funcionales
         async function fetchClients() {
-            const data = await getClients(); // Llama a la función getClients para obtener los datos de los clientes
-            setClients(data); // Actualiza el estado de los clientes con los datos obtenidos
+            try {
+                const data = await getClients(); // Llama a la función getClients para obtener los datos de los clientes
+                setClients(data); // Actualiza el estado de los clientes con los datos obtenidos
+            } catch (error) {
+                console.error("Error fetching clients:", error); 
+            } finally {
+                setLoading(false);
+            }
         }
         fetchClients(); // Llama a la función fetchClients para obtener los datos al cargar el componente
     }, []) // El array vacío [] asegura que el efecto solo se ejecute una vez al montar el componente
+
+    if (loading) {
+        return (
+            <div className="p-5">
+                <h1 className="text-3xl font-bold mb-4">Lista de Clientes</h1>
+                <p className="text-lg">Cargando clientes...</p>
+            </div>
+        );
+    }
 
     return(
         <div className="p-5">

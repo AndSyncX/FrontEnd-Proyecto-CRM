@@ -1,6 +1,6 @@
 import axiosConection from './axiosConection';
 
-// Aqui se define la URL base de la API
+// Aqui se define la URL base de la API (localhost:8080/clients)
 const API_BASE_URL = './clients';
 
 // Funcion para obtener todos los clientes
